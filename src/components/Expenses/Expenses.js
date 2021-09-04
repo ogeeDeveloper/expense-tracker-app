@@ -7,16 +7,24 @@ import './Expenses.css';
 
 const Expenses = ({items}) => {
   const [filteredYear, setFiteredYear]= useState(new Date().getFullYear ())
+
   const filterYearHandler = getSelectedYear=>{
+    // filteredYear.filter(year=> year.filteredYear.includes(filteredYear))
     setFiteredYear(getSelectedYear)
-    console.log('From expenses ')
   }
+
+  const filterExpenses = items.filter(expense=>{
+    // Return true or files based on the condition
+    return expense.date.getFullYear().toString() === filteredYear
+  })
+
+
   return (
     <div>
       <Card className="expenses">
       <ExpenseFilter defaultYear={filteredYear} onFilteryear={filterYearHandler}/>
-        {items.map(({title,amount,date})=>
-          <ExpenseItem title={title} amount={amount} date={date}/>
+        {filterExpenses.map(({title,amount,date,id})=>
+          <ExpenseItem key={id} title={title} amount={amount} date={date}/>
           )}
       </Card>
     </div>
